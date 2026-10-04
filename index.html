@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+
+  <title>Note Help — AI Note Generator</title>
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       SIDEBAR
+       ========================= -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Brand -->
+    <a class="brand" href="#">
+      <span class="brand-icon">✳</span>
+      <span>Note Help</span>
+    </a>
+
+    <!-- New Note -->
+    <button class="new-button" id="newNote" type="button">
+      <span>＋</span>
+      New notes
+    </button>
+
+    <!-- Workspace -->
+    <div class="side-label">WORKSPACE</div>
+
+    <button class="nav-item active" type="button">
+      <span class="nav-icon">▤</span>
+      Note generator
+    </button>
+
+    <!-- Recent Notes -->
+    <div class="history-heading">
+      <span class="side-label">RECENT NOTES</span>
+      <span id="noteCount">0</span>
+    </div>
+
+    <!-- Search -->
+    <label class="history-search">
+      <span>⌕</span>
+      <input
+        id="searchNotes"
+        type="search"
+        placeholder="Find a note"
+        aria-label="Search notes"
+      >
+    </label>
+
+    <!-- History -->
+    <div class="history-list" id="historyList"></div>
+
+    <!-- Workspace Account -->
+    <div class="sidebar-bottom">
+
+      <div class="avatar">NH</div>
+
+      <div>
+        <strong>My workspace</strong>
+        <small>Saved on this device</small>
+      </div>
+
+      <span
+        class="local-dot"
+        title="Offline storage"
+        aria-label="Offline storage"
+      ></span>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =========================
+       MAIN CONTENT
+       ========================= -->
+  <main class="main">
+
+    <!-- Top Navigation -->
+    <header class="topbar">
+
+      <button
+        class="mobile-menu"
+        id="mobileMenu"
+        type="button"
+        aria-label="Toggle menu"
+      >
+        ☰
+      </button>
+
+      <div class="breadcrumb">
+        Workspace
+        <span>/</span>
+        <strong>Note generator</strong>
+      </div>
+
+      <div class="topbar-right">
+
+        <span class="privacy">
+          <i></i>
+          Private workspace
+        </span>
+
+        <button
+          id="themeToggle"
+          class="theme-button"
+          type="button"
+          aria-label="Toggle color theme"
+          title="Toggle theme"
+        >
+          ☼
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- =========================
+         PAGE WRAPPER
+         ========================= -->
+    <div class="page-wrap">
+
+
+      <!-- =========================
+           WELCOME SECTION
+           ========================= -->
+      <section class="welcome">
+
+        <div>
+
+          <div class="eyebrow">
+            <span></span>
+            YOUR STUDY COMPANION
+          </div>
+
+          <h1>
+            Make learning
+            <br>
+            <em>easier to remember.</em>
+          </h1>
+
+          <p>
+            Turn long material into clear, organized notes
+            you can actually use.
+          </p>
+
+        </div>
+
+
+        <!-- Welcome Illustration -->
+        <div
+          class="welcome-art"
+          aria-hidden="true"
+        >
+
+          <div class="art-circle circle-one"></div>
+
+          <div class="art-circle circle-two"></div>
+
+          <div class="paper">
+
+            <span></span>
+
+            <b></b>
+            <b></b>
+            <b></b>
+
+            <i>✳</i>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           GENERATOR LAYOUT
+           ========================= -->
+      <section class="generator-layout">
+
+
+        <!-- =========================
+             INPUT COLUMN
+             ========================= -->
+        <div class="input-column">
+
+
+          <!-- Step 01 -->
+          <div class="section-heading">
+
+            <div>
+
+              <span class="step">01</span>
+
+              <h2>Add your material</h2>
+
+            </div>
+
+            <span class="small-muted">
+              Paste text or upload a file
+            </span>
+
+          </div>
+
+
+          <!-- Source Card -->
+          <div class="source-card">
+
+
+            <!-- Source Toolbar -->
+            <div class="source-toolbar">
+
+              <div class="source-tabs">
+
+                <button
+                  class="source-tab active"
+                  id="pasteTab"
+                  type="button"
+                >
+                  Paste text
+                </button>
+
+                <button
+                  class="source-tab"
+                  id="uploadTab"
+                  type="button"
+                >
+                  Upload file
+                </button>
+
+              </div>
+
+              <span
+                class="word-meter"
+                id="inputWords"
+              >
+                0 words
+              </span>
+
+            </div>
+
+
+            <!-- Text Input -->
+            <textarea
+              id="sourceText"
+              placeholder="Paste a chapter, lecture transcript, article, or your own study material here…"
+              aria-label="Source material"
+            ></textarea>
+
+
+            <!-- Upload Zone -->
+            <div
+              class="upload-zone hidden"
+              id="uploadZone"
+            >
+
+              <div class="upload-symbol">
+                ↑
+              </div>
+
+              <strong>
+                Choose a text file
+              </strong>
+
+              <span>
+                TXT or Markdown · up to 2 MB
+              </span>
+
+              <input
+                id="fileInput"
+                type="file"
+                accept=".txt,.md,text/plain,text/markdown"
+              >
+
+              <button
+                class="button button-outline"
+                id="chooseFile"
+                type="button"
+              >
+                Browse files
+              </button>
+
+              <small id="fileName"></small>
+
+            </div>
+
+
+            <!-- Source Footer -->
+            <div class="source-foot">
+
+              <span>
+                ⌁ &nbsp;Your material stays in this browser
+              </span>
+
+              <button
+                id="clearSource"
+                class="text-button"
+                type="button"
+              >
+                Clear text
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- Step 02 -->
+          <div class="section-heading options-heading">
+
+            <div>
+
+              <span class="step">02</span>
+
+              <h2>
+                Choose your note style
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <!-- Note Styles -->
+          <div
+            class="style-options"
+            role="group"
+            aria-label="Note style"
+          >
+
+
+            <!-- Balanced -->
+            <button
+              class="style-option selected"
+              data-style="balanced"
+              type="button"
+            >
+
+              <span class="style-icon">
+                ☷
+              </span>
+
+              <span>
+
+                <strong>
+                  Balanced
+                </strong>
+
+                <small>
+                  Summary + key points
+                </small>
+
+              </span>
+
+              <span class="radio"></span>
+
+            </button>
+
+
+            <!-- Quick Review -->
+            <button
+              class="style-option"
+              data-style="brief"
+              type="button"
+            >
+
+              <span class="style-icon">
+                ≡
+              </span>
+
+              <span>
+
+                <strong>
+                  Quick review
+                </strong>
+
+                <small>
+                  Short and to the point
+                </small>
+
+              </span>
+
+              <span class="radio"></span>
+
+            </button>
+
+
+            <!-- Detailed -->
+            <button
+              class="style-option"
+              data-style="detailed"
+              type="button"
+            >
+
+              <span class="style-icon">
+                ▤
+              </span>
+
+              <span>
+
+                <strong>
+                  Detailed
+                </strong>
+
+                <small>
+                  More context and structure
+                </small>
+
+              </span>
+
+              <span class="radio"></span>
+
+            </button>
+
+          </div>
+
+
+          <!-- Generate Button -->
+          <button
+            id="generateButton"
+            class="generate-button"
+            type="button"
+          >
+
+            <span>✳</span>
+
+            Generate my notes
+
+            <span class="arrow">
+              →
+            </span>
+
+          </button>
+
+
+          <!-- Message -->
+          <div
+            id="message"
+            class="message"
+            aria-live="polite"
+          ></div>
+
+
+          <p class="prototype-note">
+            This demo creates notes in your browser.
+            Connect an AI service for advanced summaries and translation.
+          </p>
+
+        </div>
+
+
+        <!-- =========================
+             OUTPUT COLUMN
+             ========================= -->
+        <section
+          class="output-column"
+          aria-label="Generated notes"
+        >
+
+
+          <!-- Output Header -->
+          <div class="output-header">
+
+            <div>
+
+              <span class="step">
+                03
+              </span>
+
+              <h2>
+                Your notes
+              </h2>
+
+            </div>
+
+
+            <div class="output-actions">
+
+              <!-- Copy -->
+              <button
+                id="copyButton"
+                class="mini-button"
+                type="button"
+                title="Copy notes"
+                aria-label="Copy notes"
+              >
+                ▢
+              </button>
+
+
+              <!-- Export -->
+              <button
+                id="exportButton"
+                class="export-button"
+                type="button"
+              >
+                ↓
+                <span>
+                  Export
+                </span>
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- Output Paper -->
+          <div
+            class="output-paper"
+            id="outputPaper"
+          >
+
+
+            <!-- =========================
+                 EMPTY STATE
+                 ========================= -->
+            <div
+              class="empty-state"
+              id="emptyState"
+            >
+
+              <div class="empty-illustration">
+
+                <span class="empty-spark">
+                  ✳
+                </span>
+
+                <div class="empty-page">
+
+                  <b></b>
+                  <b></b>
+                  <b></b>
+                  <b></b>
+
+                </div>
+
+              </div>
+
+
+              <strong>
+                Your notes will appear here
+              </strong>
+
+
+              <p>
+                Add study material, choose a style,
+                <br>
+                then generate your first set of notes.
+              </p>
+
+
+              <span class="empty-tip">
+                ✦ &nbsp;Clear notes help you focus on what matters.
+              </span>
+
+            </div>
+
+
+            <!-- =========================
+                 GENERATED RESULT
+                 ========================= -->
+            <div
+              class="result hidden"
+              id="result"
+            >
+
+
+              <!-- Result Meta -->
+              <div class="result-meta">
+
+                <span class="result-tag">
+                  GENERATED NOTES
+                </span>
+
+                <span id="resultDate"></span>
+
+              </div>
+
+
+              <!-- Result Title -->
+              <input
+                id="resultTitle"
+                class="result-title"
+                type="text"
+                value="Study notes"
+                aria-label="Notes title"
+              >
+
+
+              <!-- Result Body -->
+              <div
+                id="resultBody"
+                class="result-body"
+                contenteditable="true"
+                aria-label="Editable generated notes"
+              ></div>
+
+
+              <!-- Result Footer -->
+              <div class="result-footer">
+
+                <span>
+                  Click the notes to edit them
+                </span>
+
+                <button
+                  id="saveButton"
+                  class="save-button"
+                  type="button"
+                >
+                  ✓ Saved
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Output Hint -->
+          <div class="output-hint">
+
+            <span>
+              ⌘
+            </span>
+
+            Notes are editable.
+            Export to keep a copy.
+
+          </div>
+
+        </section>
+
+      </section>
+
+
+      <!-- =========================
+           FOOTER
+           ========================= -->
+      <footer class="page-footer">
+
+        <span>
+          Note Help
+        </span>
+
+        <span>
+          Made for clearer learning
+        </span>
+
+      </footer>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
